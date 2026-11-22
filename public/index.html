@@ -3,27 +3,329 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Voidreach</title>
+  <title>VoidReach — 深入废墟，让生命被看见</title>
+  <meta name="description" content="VoidReach：面向坍塌废墟救援的可转向可回收柔性探测系统。Go Further. Find Sooner. Bring Hope.">
   <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #0f172a;
-      color: #e2e8f0;
-      font-family: -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+    :root {
+      --bg: #0b0f1a;
+      --panel: #121829;
+      --panel-2: #171f33;
+      --line: rgba(148, 163, 184, .18);
+      --text: #e6ebf4;
+      --muted: #94a3b8;
+      --accent: #7c5cff;
+      --accent-2: #22d3ee;
+      --warm: #ff8a3d;
     }
-    .card { text-align: center; }
-    h1 { font-size: 3rem; margin: 0 0 .5rem; letter-spacing: .05em; }
-    p { color: #94a3b8; margin: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, "Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+      line-height: 1.7;
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+    /* ===== Hero ===== */
+    header {
+      position: relative;
+      padding: 96px 0 72px;
+      background:
+        radial-gradient(900px 380px at 15% -10%, rgba(124, 92, 255, .28), transparent 60%),
+        radial-gradient(700px 320px at 90% 0%, rgba(34, 211, 238, .18), transparent 60%),
+        linear-gradient(180deg, #0b0f1a 0%, #0d1220 100%);
+      border-bottom: 1px solid var(--line);
+      overflow: hidden;
+    }
+    .contest {
+      display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+      margin-bottom: 28px;
+    }
+    .chip {
+      font-size: 13px; color: var(--muted);
+      border: 1px solid var(--line); border-radius: 999px;
+      padding: 5px 14px; background: rgba(18, 24, 41, .7);
+    }
+    .chip b { color: var(--text); font-weight: 600; }
+    h1 {
+      font-size: clamp(2.6rem, 7vw, 4.6rem);
+      letter-spacing: .02em; line-height: 1.1;
+      font-weight: 800;
+    }
+    h1 .void { color: var(--text); }
+    h1 .reach {
+      background: linear-gradient(90deg, var(--warm), var(--accent));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .slogan {
+      margin-top: 14px;
+      font-size: clamp(1.3rem, 3.4vw, 1.9rem);
+      font-weight: 700;
+    }
+    .slogan-en {
+      color: var(--muted);
+      font-size: 15px; letter-spacing: .18em;
+      margin-top: 6px; text-transform: uppercase;
+    }
+    .intro {
+      margin-top: 22px; max-width: 720px;
+      color: #c7d0de; font-size: 16.5px;
+    }
+    .intro b { color: var(--text); }
+    .handnote {
+      color: var(--accent-2); font-style: italic;
+      display: inline-block; margin-top: 8px; font-size: 14px;
+    }
+
+    /* ===== 通用 section ===== */
+    section { padding: 64px 0; }
+    section + section { border-top: 1px solid var(--line); }
+    h2 {
+      font-size: 1.55rem; font-weight: 800;
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 8px;
+    }
+    h2::before {
+      content: ""; width: 5px; height: 26px; border-radius: 3px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-2));
+    }
+    .sub { color: var(--muted); margin-bottom: 32px; font-size: 15px; }
+
+    /* ===== 价值三卡 ===== */
+    .value-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .card {
+      background: var(--panel); border: 1px solid var(--line);
+      border-radius: 16px; padding: 26px 24px;
+      transition: transform .2s ease, border-color .2s ease;
+    }
+    .card:hover { transform: translateY(-3px); border-color: rgba(124, 92, 255, .45); }
+    .card .icon { font-size: 30px; margin-bottom: 12px; }
+    .card h3 { font-size: 1.12rem; margin-bottom: 6px; }
+    .card p { color: var(--muted); font-size: 14.5px; }
+
+    /* ===== 工作流程 ===== */
+    .flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; counter-reset: step; }
+    .step {
+      position: relative; background: var(--panel-2);
+      border: 1px solid var(--line); border-radius: 14px;
+      padding: 22px 18px 18px;
+    }
+    .step::before {
+      counter-increment: step; content: counter(step);
+      position: absolute; top: -13px; left: 16px;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #fff; font-size: 13px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .step h3 { font-size: 1.02rem; margin: 6px 0 6px; }
+    .step p { color: var(--muted); font-size: 13.5px; }
+
+    /* ===== 核心技术 ===== */
+    .tech-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .tech {
+      display: flex; gap: 14px; align-items: flex-start;
+      background: var(--panel); border: 1px solid var(--line);
+      border-radius: 14px; padding: 20px;
+    }
+    .tech .dot {
+      flex: 0 0 auto; width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(124, 92, 255, .16); font-size: 19px;
+    }
+    .tech h3 { font-size: 1.02rem; margin-bottom: 4px; }
+    .tech p { color: var(--muted); font-size: 13.5px; }
+
+    /* ===== 团队 ===== */
+    .team-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+    .role {
+      text-align: center; background: var(--panel-2);
+      border: 1px solid var(--line); border-radius: 14px; padding: 20px 12px;
+    }
+    .role .icon { font-size: 24px; }
+    .role h3 { font-size: .98rem; margin: 8px 0 4px; }
+    .role p { color: var(--muted); font-size: 12.5px; line-height: 1.6; }
+
+    /* ===== 尾部 ===== */
+    footer {
+      border-top: 1px solid var(--line);
+      background: linear-gradient(180deg, #0d1220, #0b0f1a);
+      text-align: center; padding: 72px 24px 56px;
+    }
+    footer .big {
+      font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 800; line-height: 1.5;
+    }
+    footer .big span {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    footer .en {
+      margin-top: 10px; color: var(--muted);
+      font-size: 12px; letter-spacing: .3em; text-transform: uppercase;
+    }
+    footer .meta { margin-top: 26px; color: #64748b; font-size: 13px; }
+
+    @media (max-width: 860px) {
+      .value-grid { grid-template-columns: 1fr; }
+      .flow { grid-template-columns: repeat(2, 1fr); row-gap: 26px; }
+      .team-grid { grid-template-columns: repeat(2, 1fr); }
+      .tech-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 520px) {
+      .flow { grid-template-columns: 1fr; }
+      .team-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
-  <main class="card">
-    <h1>Voidreach</h1>
-    <p>站点已部署成功，开始编辑 public/index.html 构建你的页面。</p>
-  </main>
+
+<header>
+  <div class="wrap">
+    <div class="contest">
+      <span class="chip"><b>Space Center Houston</b> · Conrad Challenge</span>
+      <span class="chip">参赛主题：<b>互联网与安全</b> Cyber Technology and Safety</span>
+      <span class="chip">Safer People · Stronger Communities</span>
+    </div>
+    <h1><span class="void">Void</span><span class="reach">Reach</span><sup style="font-size:.35em;color:var(--muted)">™</sup></h1>
+    <div class="slogan">深入废墟，让生命被看见。</div>
+    <div class="slogan-en">Go Further · Find Sooner · Bring Hope</div>
+    <p class="intro">
+      <b>VoidReach</b> 是一款面向坍塌废墟救援的<b>可转向、可回收柔性探测系统</b>。
+      它以更小的直径、更快的进入速度和更高的通过能力，深入复杂狭窄空腔；
+      通过多模态传感与实时数据，帮助救援人员在黄金救援时间内快速定位被困者、做出决策，拯救更多生命。
+    </p>
+    <span class="handnote">Small Probe, Big Impact.</span>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="wrap">
+      <h2>三大核心价值</h2>
+      <p class="sub">为一线救援队设计的系统目标</p>
+      <div class="value-grid">
+        <div class="card">
+          <div class="icon">⚡</div>
+          <h3>更快发现生命</h3>
+          <p>柔性探针快速进入复杂空腔，抢占黄金救援时间窗。</p>
+        </div>
+        <div class="card">
+          <div class="icon">🛡️</div>
+          <h3>更高的救援安全性</h3>
+          <p>机器先行、人后进入，显著减少救援人员的二次坍塌风险。</p>
+        </div>
+        <div class="card">
+          <div class="icon">🌱</div>
+          <h3>更低的部署成本</h3>
+          <p>结构简单易用、无需重型设备，真正面向一线救援队伍普及。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>系统工作流程</h2>
+      <p class="sub">从送入到预警的四步闭环</p>
+      <div class="flow">
+        <div class="step">
+          <h3>部署探针</h3>
+          <p>卷轴送入、快速进入狭窄空腔，无需大开口破拆。</p>
+        </div>
+        <div class="step">
+          <h3>主动转向</h3>
+          <p>拉线控制末端弯曲，穿越复杂路径绕过障碍。</p>
+        </div>
+        <div class="step">
+          <h3>多模态探测</h3>
+          <p>图像、声音、温湿度、气体等多传感数据实时融合。</p>
+        </div>
+        <div class="step">
+          <h3>实时预警</h3>
+          <p>AI 分析生命迹象，辅助救援决策与优先级排序。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>核心技术与创新</h2>
+      <p class="sub">四项关键技术支撑"进得去、拐得动、收得回、看得见"</p>
+      <div class="tech-grid">
+        <div class="tech">
+          <div class="dot">🧬</div>
+          <div>
+            <h3>梯度刚度结构</h3>
+            <p>兼顾推进力与灵活性，可通过连续弯道与不规则空腔。</p>
+          </div>
+        </div>
+        <div class="tech">
+          <div class="dot">🎯</div>
+          <div>
+            <h3>拉线主动转向</h3>
+            <p>多方向精准控制，末端转向 ≥ 90°，灵活绕障。</p>
+          </div>
+        </div>
+        <div class="tech">
+          <div class="dot">♻️</div>
+          <div>
+            <h3>可回收优先设计</h3>
+            <p>自动回卷 + 卷轴收回，拉力监测防止卡滞。</p>
+          </div>
+        </div>
+        <div class="tech">
+          <div class="dot">📡</div>
+          <div>
+            <h3>多模态传感</h3>
+            <p>摄像头 / 麦克风 / 温湿度 / 气体采样，结合 AI 生命迹象识别。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>专业方向与团队分工</h2>
+      <p class="sub">跨学科协作，覆盖从结构到落地的完整链路</p>
+      <div class="team-grid">
+        <div class="role">
+          <div class="icon">⚙️</div>
+          <h3>机械工程</h3>
+          <p>探针结构设计<br>材料与制造</p>
+        </div>
+        <div class="role">
+          <div class="icon">🔌</div>
+          <h3>电子与嵌入式</h3>
+          <p>传感器集成<br>控制系统开发</p>
+        </div>
+        <div class="role">
+          <div class="icon">💻</div>
+          <h3>计算机与 AI</h3>
+          <p>数据处理<br>生命迹象识别</p>
+        </div>
+        <div class="role">
+          <div class="icon">📐</div>
+          <h3>工业设计</h3>
+          <p>便携设备与结构优化<br>人机交互设计</p>
+        </div>
+        <div class="role">
+          <div class="icon">📊</div>
+          <h3>商业与推广</h3>
+          <p>市场调研<br>应用落地与社会影响</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="big">让科技穿透黑暗，<br>为<span>每一个生命</span>争取时间。</div>
+  <div class="en">Technology Reaches Further · Humanity Goes Stronger</div>
+  <div class="meta">VoidReach™ · Conrad Challenge · Reach Further, Save More Lives</div>
+</footer>
+
 </body>
 </html>
